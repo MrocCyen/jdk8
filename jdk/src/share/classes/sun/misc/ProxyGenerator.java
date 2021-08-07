@@ -490,6 +490,7 @@ public class ProxyGenerator {
 		 * fields and methods in the class we are generating.
 		 */
 		try {
+			//todo 写入构造函数
 			methods.add(generateConstructor());
 
 			for (List<ProxyMethod> sigmethods : proxyMethods.values()) {
@@ -501,10 +502,12 @@ public class ProxyGenerator {
 							ACC_PRIVATE | ACC_STATIC));
 
 					// generate code for proxy method and add it
+					//todo 写入每个方法
 					methods.add(pm.generateMethod());
 				}
 			}
 
+			//todo 写入静态初始化块
 			methods.add(generateStaticInitializer());
 
 		} catch (IOException e) {
@@ -677,6 +680,7 @@ public class ProxyGenerator {
 
 		nextNewReturnType:
 		for (ProxyMethod pm : methods) {
+			//返回值类型
 			Class<?> newReturnType = pm.returnType;
 			if (newReturnType.isPrimitive()) {
 				throw new IllegalArgumentException(
@@ -1186,6 +1190,8 @@ public class ProxyGenerator {
 
 	/**
 	 * Generate the constructor method for the proxy class.
+	 * <p>
+	 * 创建构造函数
 	 */
 	private MethodInfo generateConstructor() throws IOException {
 		MethodInfo minfo = new MethodInfo(
