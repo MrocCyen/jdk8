@@ -502,7 +502,7 @@ public class ProxyGenerator {
 							ACC_PRIVATE | ACC_STATIC));
 
 					// generate code for proxy method and add it
-					//todo 写入每个方法
+					//todo 写入每个方法的栈帧与slot
 					methods.add(pm.generateMethod());
 				}
 			}
@@ -822,8 +822,7 @@ public class ProxyGenerator {
 		public short maxStack;
 		public short maxLocals;
 		public ByteArrayOutputStream code = new ByteArrayOutputStream();
-		public List<ExceptionTableEntry> exceptionTable =
-				new ArrayList<ExceptionTableEntry>();
+		public List<ExceptionTableEntry> exceptionTable = new ArrayList<>();
 		public short[] declaredExceptions;
 
 		public MethodInfo(String name, String descriptor, int accessFlags) {
@@ -931,8 +930,7 @@ public class ProxyGenerator {
 		 */
 		private MethodInfo generateMethod() throws IOException {
 			String desc = getMethodDescriptor(parameterTypes, returnType);
-			MethodInfo minfo = new MethodInfo(methodName, desc,
-					ACC_PUBLIC | ACC_FINAL);
+			MethodInfo minfo = new MethodInfo(methodName, desc, ACC_PUBLIC | ACC_FINAL);
 
 			int[] parameterSlot = new int[parameterTypes.length];
 			int nextSlot = 1;
